@@ -1,4 +1,18 @@
 <?php
+
+/*
+ * Helper function to log debug messages
+ */
+
+if (!function_exists('daiquiri_log')) {
+    function daiquiri_log($message)
+    {
+        if (DAIQUIRI_DEBUG) {
+            error_log($message);
+        }
+    }
+}
+
 /*
  * Singleton to get and store the layout form daiquiri.
  * The layout is seperated in header and footer wordpress style.
@@ -23,17 +37,18 @@ class Daiquiri_Layout {
     }
 
     private function __construct() {
-        // sanity check
-        $siteUrl = get_option('siteurl');
-        $layoutUrl = get_theme_mod('daiquiri_url') . '/layout/';
-        if (strpos($layoutUrl, $siteUrl) !== false) {
-            echo '<h1>Error with theme</h1><p>Layout URL is below CMS URL.</p><p>Please set the correct Daiquiri URL using the WordPress admin interface (Appearance -> Customize -> Daiquiri options).</p>';
+        // check if WordPress is below Daiquiri
+        if (strpos(get_option('siteurl'), DAIQUIRI_URL) === false) {
+            echo '<h1>Error with theme</h1><p>Wordpress URL is not below Daiquiri URL. Please set the correct DAIQUIRI_URL in wp-config.php.</p>';
             die(0);
         }
 
+        // get the layout url
+        $url = rtrim(DAIQUIRI_URL, '/') . '/layout/';
+
         // construct request
         require_once('HTTP/Request2.php');
-        $req = new HTTP_Request2($layoutUrl);
+        $req = new HTTP_Request2($url);
         $req->setConfig(array(
             'ssl_verify_peer' => false, // we trust the certificate here
             'connect_timeout' => 2,
@@ -45,37 +60,37 @@ class Daiquiri_Layout {
         // get layout from the server
         try {
             $response = $req->send();
+            $status = $response->getStatus();
+            $body = $response->getBody();
 
-            if (200 != $response->getStatus()) {
-                echo '<h1>Error with theme</h1><p>HTTP request status != 200.</p><p>Please set the correct Daiquiri URL using the WordPress admin interface (Appearance -> Customize -> Daiquiri options).</p>';
+            daiquiri_log($url . ' returned ' . $status);
+
+            if (200 != $status) {
+                echo '<h1>Error with theme</h1><p>HTTP request status != 200. Please set the correct DAIQUIRI_URL in wp-config.php.</p>';
                 die(0);
             }
         } catch (HTTP_Request2_Exception $e) {
-            echo '<h1>Error with theme</h1><p>Error with HTTP request.</p><p>Please set the correct Daiquiri URL using the WordPress admin interface (Appearance -> Customize -> Daiquiri options).</p>';
-            die(0);
+            echo '<h1>Error with theme</h1><p>Error with HTTP request. Please set the correct DAIQUIRI_URL in wp-config.php.</p>';
+            throw $e;
         }
 
         // make all internal links in the layout absolute
-        $body = $response->getBody();
         $old = array();
         $new = array();
-
         $hrefs = simplexml_load_string($body)->xpath("//@href");
         foreach($hrefs as $href) {
             if (substr($href, 0, 1) == '/') {
                 $old[] = '"' . $href . '"';
-                $new[] = '"' . get_theme_mod('daiquiri_url') . $href . '"';
+                $new[] = '"' . DAIQUIRI_URL . $href . '"';
             }
         }
-
         $srcs = simplexml_load_string($body)->xpath("//@src");
         foreach($srcs as $src) {
             if (substr($src, 0, 1) == '/') {
                 $old[] = '"' . $src . '"';
-                $new[] = '"' . get_theme_mod('daiquiri_url') . $src . '"';
+                $new[] = '"' . DAIQUIRI_URL . $src . '"';
             }
         }
-
         $body = str_replace($old, $new, $body);
 
         // split layout in header and footer
@@ -110,30 +125,6 @@ class Daiquiri_Layout {
     }
 
 }
-
-/*
- * add a theme setting daiquiri_url and a controll to change it
- */
-
-function daiquiri_customize_register( $wp_customize ) {
-    $wp_customize->add_setting( 'daiquiri_url' , array(
-        'default'   => 'http://localhost:8000',
-        'transport' => 'refresh',
-    ) );
-
-    $wp_customize->add_section( 'daiquiri_section' , array(
-        'title'      => __( 'Daiquiri options', 'daiquiri' ),
-        'priority'   => 30,
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'daiquiri_url_control', array(
-        'label'      => __( 'Daiquiri URL', 'daiquiri' ),
-        'section'    => 'daiquiri_section',
-        'settings'   => 'daiquiri_url',
-    ) ) );
-}
-
-add_action( 'customize_register', 'daiquiri_customize_register' );
 
 /*
  * Initialize dynamic sidebar
