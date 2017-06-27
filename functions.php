@@ -49,13 +49,13 @@ class Daiquiri_Layout {
         // construct request
         require_once('HTTP/Request2.php');
         $req = new HTTP_Request2($url);
+        $req->setMethod('GET');
+        $req->addCookie("sessionid", $_COOKIE["sessionid"]);
         $req->setConfig(array(
             'ssl_verify_peer' => false, // we trust the certificate here
             'connect_timeout' => 2,
             'timeout' => 3
         ));
-        $req->setMethod('GET');
-        $req->addCookie("sessionid", $_COOKIE["sessionid"]);
 
         // get layout from the server
         try {
