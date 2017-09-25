@@ -3,7 +3,7 @@
 <div class="container wordpress">
     <div class="row">
         <div class="col-md-9">
-            <?php get_template_part('partials/page-loop'); ?>
+            <?php get_template_part('partials/loop', 'page'); ?>
         </div>
         <div class="col-md-3">
             <?php get_sidebar(); ?>

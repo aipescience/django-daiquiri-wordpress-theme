@@ -9,7 +9,7 @@ Template Name: Default Template (no title)
 <div class="container wordpress">
     <div class="row">
         <div class="col-md-9">
-            <?php get_template_part('partials/page-loop-no-title'); ?>
+            <?php get_template_part('partials/loop', 'page-no-title'); ?>
         </div>
         <div class="col-md-3">
             <?php get_sidebar(); ?>

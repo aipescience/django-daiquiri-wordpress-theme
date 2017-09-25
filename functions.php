@@ -37,12 +37,6 @@ class Daiquiri_Layout {
     }
 
     private function __construct() {
-        // check if WordPress is below Daiquiri
-        if (strpos(get_option('siteurl'), DAIQUIRI_URL) === false) {
-            echo '<h1>Error with theme</h1><p>Wordpress URL is not below Daiquiri URL. Please set the correct DAIQUIRI_URL in wp-config.php.</p>';
-            die(0);
-        }
-
         // get the layout url
         $url = rtrim(DAIQUIRI_URL, '/') . '/layout/';
 
@@ -77,7 +71,16 @@ class Daiquiri_Layout {
         // make all internal links in the layout absolute
         $old = array();
         $new = array();
-        $hrefs = simplexml_load_string($body)->xpath("//@href");
+
+        $parsed_body = simplexml_load_string($body);
+
+        if ($parsed_body === false) {
+            echo '<h1>Error with theme</h1><p>Could not parse layout. Please check that your Daiquiri layout is valid HTML.</p>';
+            exit();
+        }
+
+        $hrefs = $parsed_body->xpath("//@href");
+
         foreach($hrefs as $href) {
             if (substr($href, 0, 1) == '/') {
                 $old[] = '"' . $href . '"';

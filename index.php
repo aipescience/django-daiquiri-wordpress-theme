@@ -3,8 +3,6 @@
 <div class="container wordpress">
     <div class="row">
         <div class="col-md-9">
-            <h1><?php echo bloginfo(); ?></h1>
-
             <?php get_template_part('partials/loop', 'index'); ?>
         </div>
         <div class="col-md-3">

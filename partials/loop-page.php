@@ -1,8 +1,8 @@
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
     <div class="page">
-        <h2 class="page-title">
-            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-        </h2>
+        <h1 class="page-title">
+            <?php the_title(); ?>
+        </h1>
 
         <?php edit_post_link('Edit Page', '<p>', '</p>'); ?>
 
