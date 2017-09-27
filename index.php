@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<div class="container wordpress">
+<div class="wordpress">
     <div class="row">
         <div class="col-md-9">
             <?php get_template_part('partials/loop', 'index'); ?>

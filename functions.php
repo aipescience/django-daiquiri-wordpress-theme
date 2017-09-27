@@ -79,23 +79,6 @@ class Daiquiri_Layout {
             exit();
         }
 
-        $hrefs = $parsed_body->xpath("//@href");
-
-        foreach($hrefs as $href) {
-            if (substr($href, 0, 1) == '/') {
-                $old[] = '"' . $href . '"';
-                $new[] = '"' . DAIQUIRI_URL . $href . '"';
-            }
-        }
-        $srcs = simplexml_load_string($body)->xpath("//@src");
-        foreach($srcs as $src) {
-            if (substr($src, 0, 1) == '/') {
-                $old[] = '"' . $src . '"';
-                $new[] = '"' . DAIQUIRI_URL . $src . '"';
-            }
-        }
-        $body = str_replace($old, $new, $body);
-
         // split layout in header and footer
         $body = explode('<!-- content placeholder -->', $body);
         if (count($body) == 2) {

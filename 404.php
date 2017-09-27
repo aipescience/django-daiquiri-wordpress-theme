@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<div class="container">
+<div class="wordpress">
     <div class="row">
         <div class="col-md-9">
             <h2>Sorry, but there has been an error.</h2>
