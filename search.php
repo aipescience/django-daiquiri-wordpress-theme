@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <div class="wordpress">
-    <div class="row">
+    <div class="page row">
         <div class="col-md-9">
             <h2>
                 Search results for "<?php
@@ -17,7 +17,7 @@
 
             <?php get_template_part('partials/loop', 'post-single'); ?>
         </div>
-        <div class="col-md-3">
+        <div class="sidebar col-md-3">
             <?php get_sidebar(); ?>
         </div>
     </div>

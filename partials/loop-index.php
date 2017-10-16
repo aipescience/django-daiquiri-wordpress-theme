@@ -1,6 +1,7 @@
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
     <div class="post">
         <h2 class="post-title">
+            <?php edit_post_link('<i class="fa fa-pencil"></i>', '<div class="pull-right">', '</div>'); ?>
             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
         </h2>
 

@@ -121,8 +121,8 @@ register_sidebar(array(
     'id' => 'sidebar',
     'before_widget' => '<li>',
     'after_widget' => "</li>",
-    'before_title' => "<h3>",
-    'after_title' => "</h3>"
+    'before_title' => "<h2>",
+    'after_title' => "</h2>"
 ));
 
 /*

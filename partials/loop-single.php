@@ -6,12 +6,11 @@
         ?>
 
         <h1 class="post-title">
+            <?php edit_post_link('<i class="fa fa-pencil"></i>', '<div class="pull-right">', '</div>'); ?>
             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
         </h1>
 
         <p class="post-date">by <?php the_author(); ?> on <?php the_date(); ?></p>
-
-        <?php edit_post_link('Edit Page', '<p>', '</p>'); ?>
 
         <?php the_content(); ?>
 

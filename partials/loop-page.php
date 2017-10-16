@@ -1,10 +1,9 @@
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-    <div class="page">
+    <div class="post">
         <h1 class="page-title">
+            <?php edit_post_link('<i class="fa fa-pencil"></i>', '<div class="pull-right">', '</div>'); ?>
             <?php the_title(); ?>
         </h1>
-
-        <?php edit_post_link('Edit Page', '<p>', '</p>'); ?>
 
         <?php the_content(); ?>
 
