@@ -7,7 +7,9 @@ Template Name: Wide Template (no title)
 <?php get_header(); ?>
 
 <div class="wordpress">
-    <?php get_template_part('partials/loop', 'page-no-title'); ?>
+    <div class="wide">
+        <?php get_template_part('partials/loop', 'page-no-title'); ?>
+    </div>
 </div>
 
 <?php get_footer(); ?>

@@ -7,8 +7,10 @@ Template Name: News Template
 <?php get_header(); ?>
 
 <div class="wordpress">
-    <?php get_template_part('partials/loop', 'page'); ?>
-    <?php get_template_part('partials/news'); ?>
+    <div class="wide">
+        <?php get_template_part('partials/loop', 'page'); ?>
+        <?php get_template_part('partials/news'); ?>
+    </div>
 </div>
 
 <?php get_footer(); ?>
