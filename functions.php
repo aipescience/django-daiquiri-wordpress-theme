@@ -72,7 +72,11 @@ class Daiquiri_Layout {
         $old = array();
         $new = array();
 
-        $parsed_body = simplexml_load_string($body);
+        $dom = new DOMDocument();
+        $dom->strictErrorChecking = FALSE;
+        $dom->loadHTML($body);
+
+        $parsed_body = simplexml_load_string($dom);
 
         if ($parsed_body === false) {
             echo '<h1>Error with theme</h1><p>Could not parse layout. Please check that your Daiquiri layout is valid HTML.</p>';
