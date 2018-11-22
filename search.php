@@ -15,7 +15,7 @@
                 ?> page(s) matching the search query.
             </p>
 
-            <?php get_template_part('partials/loop', 'post-single'); ?>
+            <?php get_template_part('partials/loop', 'index'); ?>
         </div>
         <div class="sidebar col-md-3">
             <?php get_sidebar(); ?>
