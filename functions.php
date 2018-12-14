@@ -38,7 +38,7 @@ class Daiquiri_Layout {
 
     private function __construct() {
         // get the layout url
-        $url = rtrim(DAIQUIRI_URL, '/') . '/layout/';
+        $url = rtrim(DAIQUIRI_URL, '/') . '/layout/?request_uri=' . $_SERVER['REQUEST_URI'];
 
         // construct request
         require_once('HTTP/Request2.php');
