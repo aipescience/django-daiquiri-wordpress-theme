@@ -74,7 +74,8 @@ class Daiquiri_Layout {
 
         $dom = new DOMDocument();
         $dom->strictErrorChecking = FALSE;
-        $dom->loadHTML($body);
+        // suppress all warnings - HTML5 issue
+        @$dom->loadHTML($body);
 
         $parsed_body = simplexml_load_string($dom);
 
