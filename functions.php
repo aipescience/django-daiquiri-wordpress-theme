@@ -68,22 +68,6 @@ class Daiquiri_Layout {
             throw $e;
         }
 
-        // make all internal links in the layout absolute
-        $old = array();
-        $new = array();
-
-        $dom = new DOMDocument();
-        $dom->strictErrorChecking = FALSE;
-        // suppress all warnings - HTML5 issue
-        @$dom->loadHTML($body);
-
-        $parsed_body = simplexml_load_string($dom);
-
-        if ($parsed_body === false) {
-            echo '<h1>Error with theme</h1><p>Could not parse layout. Please check that your Daiquiri layout is valid HTML.</p>';
-            exit();
-        }
-
         // split layout in header and footer
         $body = explode('<!-- content placeholder -->', $body);
         if (count($body) == 2) {
