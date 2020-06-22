@@ -44,7 +44,9 @@ class Daiquiri_Layout {
         require_once('HTTP/Request2.php');
         $req = new HTTP_Request2($url);
         $req->setMethod('GET');
-        $req->addCookie("sessionid", $_COOKIE["sessionid"]);
+        if (isset($_COOKIE["sessionid"])) {
+            $req->addCookie("sessionid", $_COOKIE["sessionid"]);
+        }
         $req->setConfig(array(
             'ssl_verify_peer' => false, // we trust the certificate here
             'connect_timeout' => 2,
