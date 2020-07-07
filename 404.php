@@ -7,7 +7,7 @@
 
             <h3>This page does not exist.</h3>
         </div>
-        <div class="col-md-3">
+        <div class="sidebar col-md-3">
             <?php get_sidebar(); ?>
         </div>
     </div>
